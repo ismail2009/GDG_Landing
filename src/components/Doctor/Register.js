@@ -3,6 +3,7 @@ import Register from '../elements/Form';
 import Wrapper from '../elements/Wrapper';
 import Container from '../elements/Container';
 import DocLabel from './FormDoc';
+import Certifiction from './Certification';
 
 class RegistrationForm extends Component {
      state = {
@@ -23,6 +24,7 @@ class RegistrationForm extends Component {
          email: false,
          phone: false,
        },
+       certif: [],
        count: 1,
      };
 
@@ -109,16 +111,26 @@ class RegistrationForm extends Component {
       }));
     }
 
-    // addCertification = () => {
-    //   let count = 0;
-    //   return increaseCount  () => (
-
-    //   )
-    // }
+    addCertification = () => {
+      const { count } = this.state;
+      let countCopy = count;
+      let NewCount = countCopy+1;
+      const { certif } = this.state;
+      console.log(certif);
+      let newCertif = certif.slice();
+      newCertif.push({ key: count, name: count });
+      this.setState({
+        certif: newCertif,
+      })
+      this.setState({
+        count: NewCount,
+      })
+      console.log(newCertif);
+    }
 
     render() {
       const {
-        firstName, lastName, phone, email, age,
+        firstName, lastName, phone, email, age, certif
       } = this.state;
       const errors = this.validate(firstName, lastName, email, phone, age);
       const { touched } = this.state;
@@ -286,13 +298,13 @@ class RegistrationForm extends Component {
                   <div className="form_item">
                     <DocLabel>
                 سنة التخرج
-                      <div className="form_item_input">
                         <Register.Input
                           type="number"
+                          placeholder="YYYY"
                           name="graduateYear"
                           required
                         />
-                      </div>
+
                     </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('date')}>{this.errorMessages('email')}</Register.RequiredFeild>
                   </div>
@@ -308,6 +320,10 @@ class RegistrationForm extends Component {
                     </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('university')}>{this.errorMessages('email')}</Register.RequiredFeild>
                   </div>
+                </div>
+                { certif.length > 0 &&  certif.map((item) => <Certifiction name={item.name} />) }
+                <div className="sb-btn">
+                  <button type="button" onClick={this.addCertification}>اضافة شهادة</button>
                 </div>
                 <div className="sb-btn">
                   <button type="button" onClick={this.checkOnSubmit}>انضم الآن</button>
