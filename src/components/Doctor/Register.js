@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Register from '../elements/Form';
 import Wrapper from '../elements/Wrapper';
 import Container from '../elements/Container';
+import DocLabel from './FormDoc';
 
 class RegistrationForm extends Component {
      state = {
@@ -22,6 +23,7 @@ class RegistrationForm extends Component {
          email: false,
          phone: false,
        },
+       count: 1,
      };
 
     rexExpMap = {
@@ -107,6 +109,13 @@ class RegistrationForm extends Component {
       }));
     }
 
+    // addCertification = () => {
+    //   let count = 0;
+    //   return increaseCount  () => (
+
+    //   )
+    // }
+
     render() {
       const {
         firstName, lastName, phone, email, age,
@@ -126,7 +135,7 @@ class RegistrationForm extends Component {
             <Register className="doctor">
               <form>
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 الاسم الاول
                     <Register.Input
                       placeholder="الاسم الأول"
@@ -137,12 +146,12 @@ class RegistrationForm extends Component {
                       className={shouldMarkError('firstName') ? 'error' : ''}
                       onChange={e => this.handleChange(e, 'firstName')}
                     />
-                  </Register.Label>
+                  </DocLabel>
                   <Register.RequiredFeild required={this.requiredStyle('firstName')}>{this.errorMessages('الاسم الاول')}</Register.RequiredFeild>
                 </div>
 
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 الاسم الأخير
                     <Register.Input
                       placeholder="الاسم الأخير"
@@ -153,12 +162,12 @@ class RegistrationForm extends Component {
                       className={shouldMarkError('lastName') ? 'error' : ''}
                       onChange={e => this.handleChange(e, 'lastName')}
                     />
-                  </Register.Label>
+                  </DocLabel>
 
                   <Register.RequiredFeild required={this.requiredStyle('lastName')}>{this.errorMessages('الاسم الاخير')}</Register.RequiredFeild>
                 </div>
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 العمر
                     <Register.Input
                       placeholder="العمر"
@@ -166,11 +175,11 @@ class RegistrationForm extends Component {
                       name="age"
                       required
                     />
-                  </Register.Label>
+                  </DocLabel>
                 </div>
 
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 الايميل
                     <Register.Input
                       placeholder="الايميل"
@@ -181,12 +190,12 @@ class RegistrationForm extends Component {
                       className={shouldMarkError('email') ? 'error' : ''}
                       onChange={e => this.handleChange(e, 'email')}
                     />
-                  </Register.Label>
+                  </DocLabel>
 
                   <Register.RequiredFeild required={this.requiredStyle('lastName')}>{this.errorMessages('الايميل')}</Register.RequiredFeild>
                 </div>
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 رقم الجوال
                     <Register.Input
                       placeholder="رقم الجوال"
@@ -194,13 +203,13 @@ class RegistrationForm extends Component {
                       name="phone"
                       required
                     />
-                  </Register.Label>
+                  </DocLabel>
                   <Register.RequiredFeild className="required-field" required={this.requiredStyle('phone')}>{this.errorMessages('email')}</Register.RequiredFeild>
 
                 </div>
 
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 اسم العيادة
                     <Register.Input
                       placeholder="اسم العيادة"
@@ -208,10 +217,10 @@ class RegistrationForm extends Component {
                       name="clincName"
                       required
                     />
-                  </Register.Label>
+                  </DocLabel>
                 </div>
                 <div className="form_item">
-                  <Register.Label>
+                  <DocLabel>
                 المدينة
                     <Register.Input
                       placeholder="المدينة"
@@ -219,17 +228,14 @@ class RegistrationForm extends Component {
                       name="city"
                       required
                     />
-                  </Register.Label>
+                  </DocLabel>
                 </div>
 
-                <div className="form_item">
-                  <Register.Label>
-              الجنس
-                  </Register.Label>
-                </div>
 
-                <div className="form_item">
-                  <Register.Label className="radio">
+                <div className="form_item" id="radio">
+                  الجنس
+                  <div className="col-s2">
+                  <DocLabel className="radio">
                     <input
                       type="radio"
                       name="sex"
@@ -237,10 +243,8 @@ class RegistrationForm extends Component {
                       required
                     />
                 ذكر
-                  </Register.Label>
-                </div>
-                <div className="form_item">
-                  <Register.Label className="radio">
+                  </DocLabel>
+                  <DocLabel className="radio">
 
                     <input
                       type="radio"
@@ -248,12 +252,14 @@ class RegistrationForm extends Component {
                       value="female"
                     />
               أنثى
-                  </Register.Label>
+                  </DocLabel>
                 </div>
+              </div>
+
                 <div className="form_doc_certification">
                   <div className="form_item">
-                    <Register.Label>
-                ملف الشهادة
+                    <DocLabel>
+              شهادة مزاولة المهنة
                       <div className="form_item_input">
                         <Register.Input
                           type="file"
@@ -261,37 +267,37 @@ class RegistrationForm extends Component {
                           required
                         />
                       </div>
-                    </Register.Label>
+                    </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('certification')}>{this.errorMessages('email')}</Register.RequiredFeild>
 
                   </div>
                   <div className="form_item">
-                    <Register.Label>
+                    <DocLabel>
                 الدرجة العلمية
                       <Register.Input
-                        placeholder="المعدل"
+                        placeholder="الدرجة العلمية"
                         type="text"
                         name="degree"
                         required
                       />
-                    </Register.Label>
+                    </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('degree')}>{this.errorMessages('email')}</Register.RequiredFeild>
                   </div>
                   <div className="form_item">
-                    <Register.Label>
+                    <DocLabel>
                 سنة التخرج
                       <div className="form_item_input">
                         <Register.Input
-                          type="date"
-                          name="date"
+                          type="number"
+                          name="graduateYear"
                           required
                         />
                       </div>
-                    </Register.Label>
+                    </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('date')}>{this.errorMessages('email')}</Register.RequiredFeild>
                   </div>
                   <div className="form_item">
-                    <Register.Label>
+                    <DocLabel>
                 اسم الجامعة
                       <Register.Input
                         placeholder="اسم الجامعة"
@@ -299,13 +305,14 @@ class RegistrationForm extends Component {
                         name="university"
                         required
                       />
-                    </Register.Label>
+                    </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('university')}>{this.errorMessages('email')}</Register.RequiredFeild>
                   </div>
                 </div>
                 <div className="sb-btn">
                   <button type="button" onClick={this.checkOnSubmit}>انضم الآن</button>
                 </div>
+
               </form>
             </Register>
           </Container>

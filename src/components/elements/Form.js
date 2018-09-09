@@ -10,17 +10,25 @@ const Register = styled.div`
     border-radius: 0;
     form {
       padding: 25px;
+      display: flex;
+      flex-direction: column;
     .form_item {
+      &#radio {
+        display:flex;
+        justify-content: space-between;
+        flex-direction: row;
+        width: 20%;
+      }
       align-items: flex-start;
       input {
         background-color: #FFFFFF;
-      }
-    }
+          }
+        }
     .sb-btn {
       justify-content: flex-start;
+          }
+        }
       }
-    }
-  }
   width: 350px;
   background-color: #FFFFFF;
   border-radius: 5px;
