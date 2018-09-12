@@ -65,6 +65,7 @@ class RegistrationForm extends Component {
       firstName: firstName.length === 0,
       lastName: lastName.length === 0,
       phone: phone.length === 0,
+      email: email.length === 0,
     })
 
     requiredStyle = (name) => {
@@ -88,33 +89,25 @@ class RegistrationForm extends Component {
       const {
         firstName, lastName, email, phone, age,
       } = this.state;
-      const formFilled = !(firstName === '' || lastName === '' || phone === '' || age === '');
+      const formFilled = !(firstName === '' || lastName === '' || email === '' || phone === '' || age === '');
       const formInvalid = Object.keys(valid).some(x => !valid[x]);
       const formHasErrors = !formFilled || formInvalid;
 
-      if (!formHasErrors) {
-        this.toggleModal();
-      }
       this.setState({
         touched: {
           firstName: true,
           lastName: true,
           phone: true,
           age: true,
+          email: true,
         },
       });
-    }
-
-    toggleModal= () => {
-      this.setState(prevState => ({
-        modalisOpen: !prevState.modalisOpen,
-      }));
     }
 
     addCertification = () => {
       const { count } = this.state;
       let countCopy = count;
-      let NewCount = countCopy+1;
+      let NewCount = countCopy++;
       const { certif } = this.state;
       console.log(certif);
       let newCertif = certif.slice();
@@ -145,7 +138,7 @@ class RegistrationForm extends Component {
         <Wrapper>
           <Container>
             <Register className="doctor">
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <div className="form_item">
                   <DocLabel>
                 الاسم الاول
@@ -204,7 +197,7 @@ class RegistrationForm extends Component {
                     />
                   </DocLabel>
 
-                  <Register.RequiredFeild required={this.requiredStyle('lastName')}>{this.errorMessages('الايميل')}</Register.RequiredFeild>
+                  <Register.RequiredFeild required={this.requiredStyle('email')}>{this.errorMessages('الايميل')}</Register.RequiredFeild>
                 </div>
                 <div className="form_item">
                   <DocLabel>
@@ -326,7 +319,7 @@ class RegistrationForm extends Component {
                   <button type="button" onClick={this.addCertification}>اضافة شهادة</button>
                 </div>
                 <div className="sb-btn">
-                  <button type="button" onClick={this.checkOnSubmit}>انضم الآن</button>
+                  <button type="button" onClick="ga('send', 'event', 'Finish Register', 'As Doctor', 'success');">انضم الآن</button>
                 </div>
 
               </form>

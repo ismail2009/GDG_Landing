@@ -253,7 +253,7 @@ class RegistrationForm extends Component {
             </div>
 
             <div className="sb-btn">
-              <button type="button" onClick={this.checkOnSubmit}>سجل و احجز موعد</button>
+              <button type="button" onClick="ga('send', 'event', 'Finish Register', 'As Patient', 'success');">سجل و احجز موعد</button>
             </div>
           </form>
         </Register>
