@@ -11,33 +11,34 @@ class RegistrationForm extends Component {
        lastName: '',
        phone: '',
        age: 0,
-       sex: '',
-       date: '',
-       appoitment: '',
-       reason: '',
+       city: '',
+       gender: '',
+       reservation_date: '',
+       hour: '',
+       why: '',
        valid: {
          firstName: true,
          lastName: true,
          phone: true,
          age: true,
-         reason: true,
+         why: true,
        },
        touched: {
          firstName: false,
          lastName: false,
          phone: false,
          age: false,
-         reason: false,
+         why: false,
        },
      };
 
     rexExpMap = {
       firstName: /^[\u0600-\u06FF]+$/,
       lastName: /^[\u0600-\u06FF]+$/,
-      reason: /^[\u0600-\u06FF]+$/,
-      sex: /^(male | female)$/,
-      date: /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/,
-      appoitment: /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/,
+      why: /^[\u0600-\u06FF]+$/,
+      gender: /^(male | female)$/,
+      reservation_date: /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/,
+      hour: /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/,
       phone: /05(9[987542]|6[9872])\d{6}$/,
       city: /^[\u0600-\u06FF]+$/,
       age: /\d/,
@@ -68,11 +69,12 @@ class RegistrationForm extends Component {
       }
     }
 
-    validate = (firstName, lastName, phone, age) => ({
+    validate = (firstName, lastName, phone, age, city) => ({
       firstName: firstName.length === 0,
       lastName: lastName.length === 0,
       phone: phone.length === 0,
       age: age.length === 0,
+      city: city.length === 0,
     })
 
     requiredStyle = (name) => {
@@ -98,12 +100,13 @@ class RegistrationForm extends Component {
         lastName,
         phone,
         age,
-        sex,
-        date,
-        appoitment,
-        reason,
+        city,
+        gender,
+        reservation_date,
+        hour,
+        why,
       } = this.state;
-      const formFilled = !(firstName === '' || lastName === '' || phone === '' || age === '');
+      const formFilled = !(firstName === '' || lastName === '' || phone === '' || age === '' || city === '' );
       const formInvalid = Object.keys(valid).some(x => !valid[x]);
       const formHasErrors = !formFilled || formInvalid;
 
@@ -116,25 +119,29 @@ class RegistrationForm extends Component {
           lastName: true,
           phone: true,
           age: true,
-          reason: true,
-
+          why: true,
+          city: true,
         },
       });
       const data = {
         firstName,
         lastName,
+        gender,
         phone,
         age,
-        sex,
-        date,
-        appoitment,
-        reason,
+        city,
+        reservation_date,
+        hour,
+        why,
       };
         console.log("sdfdssdfds",data);
-          // fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient', {
-         //     method: 'post',
-         //     body: JSON.stringify(data)
-         //   }).then(response => response.json()).then(console.log);
+          fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient/', {
+             method: 'post',
+             body: JSON.stringify(data),
+             credentials: 'include',
+             headers: {
+           "Content-Type": "application/json",       },
+           }).then(response => response.json()).then(() => {console.log("sdfsdfsdf")}).catch((err) => {console.log(err);});
       ReactGA.ga('send', 'event', 'Finish Register', 'As Patient', 'success');
     }
 
@@ -146,9 +153,9 @@ class RegistrationForm extends Component {
 
     render() {
       const {
-        firstName, lastName, phone, age,
+        firstName, lastName, phone, age,city
       } = this.state;
-      const errors = this.validate(firstName, lastName, phone, age);
+      const errors = this.validate(firstName, lastName, phone, age, city);
       const { touched } = this.state;
 
       const shouldMarkError = (field) => {
@@ -225,11 +232,26 @@ class RegistrationForm extends Component {
 
             <div className="form_item">
               <Register.Label>
+                المدينة
+                <Register.Input
+                  placeholder="المدينة"
+                  type="text"
+                  value={city}
+                  name="city"
+                  className={shouldMarkError('city') ? 'error' : ''}
+                  onChange={e => this.handleChange(e, 'city')}
+                />
+              </Register.Label>
+              <Register.RequiredFeild className="required-field" required={this.requiredStyle('العمر')}>{this.errorMessages('age')}</Register.RequiredFeild>
+            </div>
+
+            <div className="form_item">
+              <Register.Label>
                 سبب الزيارة
                 <textarea
                   placeholder="سبب الزيارة"
-                  name="reason"
-                  onChange={e => this.handleChange(e, 'reason')}
+                  name="why"
+                  onChange={e => this.handleChange(e, 'why')}
                 />
               </Register.Label>
               <Register.RequiredFeild className="required-field" required={this.requiredStyle('سبب الزيارة')}>{this.errorMessages('email')}</Register.RequiredFeild>
@@ -241,8 +263,8 @@ class RegistrationForm extends Component {
                 <div className="form_item_input">
                   <Register.Input
                     type="date"
-                    name="date"
-                    onChange={e => this.handleChange(e, 'date')}
+                    name="reservation_date"
+                    onChange={e => this.handleChange(e, 'reservation_date')}
                   />
                 </div>
               </Register.Label>
@@ -256,8 +278,8 @@ class RegistrationForm extends Component {
 
                   <Register.Input
                     type="time"
-                    name="date"
-                    onChange={e => this.handleChange(e, 'appoitment')}
+                    name="hour"
+                    onChange={e => this.handleChange(e, 'hour')}
                   />
                 </div>
               </Register.Label>
@@ -274,9 +296,9 @@ class RegistrationForm extends Component {
               <Register.Label className="radio">
                 <input
                   type="radio"
-                  name="sex"
+                  name="gender"
                   value="male"
-                  onChange={e => this.handleChange(e, 'sex')}
+                  onChange={e => this.handleChange(e, 'gender')}
                 />
                 ذكر
               </Register.Label>
@@ -287,9 +309,9 @@ class RegistrationForm extends Component {
 
                 <input
                   type="radio"
-                  name="sex"
+                  name="gender"
                   value="female"
-                  onChange={e => this.handleChange(e, 'sex')}
+                  onChange={e => this.handleChange(e, 'gender')}
                 />
               أنثى
               </Register.Label>
