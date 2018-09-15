@@ -2,7 +2,7 @@ import React from 'react';
 import Register from '../elements/Form';
 import DocLabel from './FormDoc';
 
-const Certifiction = ({ name }) => {
+const Certifiction = ({ name, onChange }) => {
   return (
     <div >
         <div className="form_item">
@@ -12,6 +12,7 @@ const Certifiction = ({ name }) => {
               placeholder="المعدل"
               type="text"
               name={`degree${name}`}
+              onChange={ e => onChange( e, 'degree')}
               required
             />
           </DocLabel>
@@ -23,6 +24,7 @@ const Certifiction = ({ name }) => {
               <Register.Input
                 type="date"
                 name={`date${name}`}
+                onChange={e => onChange(e, 'date')}
                 required
               />
             </div>
@@ -35,6 +37,7 @@ const Certifiction = ({ name }) => {
               placeholder="اسم الجامعة"
               type="text"
               name={`university${name}`}
+              onChange={e => onChange(e, 'university')}
               required
             />
           </DocLabel>

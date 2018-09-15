@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import Register from '../../elements/Form';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-125030175-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 class RegistrationForm extends Component {
      state = {
@@ -7,24 +11,33 @@ class RegistrationForm extends Component {
        lastName: '',
        phone: '',
        age: 0,
+       sex: '',
+       date: '',
+       appoitment: '',
        reason: '',
        valid: {
          firstName: true,
          lastName: true,
          phone: true,
          age: true,
+         reason: true,
        },
        touched: {
          firstName: false,
          lastName: false,
          phone: false,
          age: false,
+         reason: false,
        },
      };
 
     rexExpMap = {
       firstName: /^[\u0600-\u06FF]+$/,
       lastName: /^[\u0600-\u06FF]+$/,
+      reason: /^[\u0600-\u06FF]+$/,
+      sex: /^(male | female)$/,
+      date: /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/,
+      appoitment: /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/,
       phone: /05(9[987542]|6[9872])\d{6}$/,
       city: /^[\u0600-\u06FF]+$/,
       age: /\d/,
@@ -78,10 +91,17 @@ class RegistrationForm extends Component {
       return !valid[name] && inputName[name] !== '' ? invalidStr : requiredStr;
     }
 
-    checkOnSubmit = () => {
+    handleSubmit = () => {
       const { valid } = this.state;
       const {
-        firstName, lastName, phone, age,
+        firstName,
+        lastName,
+        phone,
+        age,
+        sex,
+        date,
+        appoitment,
+        reason,
       } = this.state;
       const formFilled = !(firstName === '' || lastName === '' || phone === '' || age === '');
       const formInvalid = Object.keys(valid).some(x => !valid[x]);
@@ -96,8 +116,26 @@ class RegistrationForm extends Component {
           lastName: true,
           phone: true,
           age: true,
+          reason: true,
+
         },
       });
+      const data = {
+        firstName,
+        lastName,
+        phone,
+        age,
+        sex,
+        date,
+        appoitment,
+        reason,
+      };
+        console.log("sdfdssdfds",data);
+          // fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient', {
+         //     method: 'post',
+         //     body: JSON.stringify(data)
+         //   }).then(response => response.json()).then(console.log);
+      ReactGA.ga('send', 'event', 'Finish Register', 'As Patient', 'success');
     }
 
     toggleModal= () => {
@@ -191,6 +229,7 @@ class RegistrationForm extends Component {
                 <textarea
                   placeholder="سبب الزيارة"
                   name="reason"
+                  onChange={e => this.handleChange(e, 'reason')}
                 />
               </Register.Label>
               <Register.RequiredFeild className="required-field" required={this.requiredStyle('سبب الزيارة')}>{this.errorMessages('email')}</Register.RequiredFeild>
@@ -203,6 +242,7 @@ class RegistrationForm extends Component {
                   <Register.Input
                     type="date"
                     name="date"
+                    onChange={e => this.handleChange(e, 'date')}
                   />
                 </div>
               </Register.Label>
@@ -217,6 +257,7 @@ class RegistrationForm extends Component {
                   <Register.Input
                     type="time"
                     name="date"
+                    onChange={e => this.handleChange(e, 'appoitment')}
                   />
                 </div>
               </Register.Label>
@@ -235,6 +276,7 @@ class RegistrationForm extends Component {
                   type="radio"
                   name="sex"
                   value="male"
+                  onChange={e => this.handleChange(e, 'sex')}
                 />
                 ذكر
               </Register.Label>
@@ -247,13 +289,14 @@ class RegistrationForm extends Component {
                   type="radio"
                   name="sex"
                   value="female"
+                  onChange={e => this.handleChange(e, 'sex')}
                 />
               أنثى
               </Register.Label>
             </div>
 
             <div className="sb-btn">
-              <button type="button" onClick="ga('send', 'event', 'Finish Register', 'As Patient', 'success');">سجل و احجز موعد</button>
+              <button type="button" onClick={this.handleSubmit}>سجل و احجز موعد</button>
             </div>
           </form>
         </Register>

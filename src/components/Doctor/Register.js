@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import Register from '../elements/Form';
 import Wrapper from '../elements/Wrapper';
 import Container from '../elements/Container';
 import DocLabel from './FormDoc';
 import Certifiction from './Certification';
+ReactGA.initialize('UA-125030175-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 class RegistrationForm extends Component {
      state = {
@@ -11,18 +15,37 @@ class RegistrationForm extends Component {
        lastName: '',
        email: '',
        phone: '',
-       reason: '',
+       age: '',
+       clincName: '',
+       city: '',
+       sex: '',
+       certification: '',
+       degree: '',
+       graduateYear:'',
+       university: '',
        valid: {
          firstName: true,
          lastName: true,
          email: true,
          phone: true,
+         age: true,
+         clincName: true,
+         city: true,
+         degree: true,
+         graduateYear: true,
+         university: true,
        },
        touched: {
          firstName: false,
          lastName: false,
          email: false,
          phone: false,
+         age: false,
+         clincName: false,
+         city: false,
+         degree: false,
+         graduateYear: false,
+         university: false,
        },
        certif: [],
        count: 1,
@@ -31,6 +54,8 @@ class RegistrationForm extends Component {
     rexExpMap = {
       firstName: /^[\u0600-\u06FF]+$/,
       lastName: /^[\u0600-\u06FF]+$/,
+      clincName: /^[\u0600-\u06FF]+$/,
+      sex: /^(male | female)$/,
       phone: /05(9[987542]|6[9872])\d{6}$/,
       city: /^[\u0600-\u06FF]+$/,
       age: /\d/,
@@ -84,10 +109,16 @@ class RegistrationForm extends Component {
       return !valid[name] && inputName[name] !== '' ? invalidStr : requiredStr;
     }
 
-    checkOnSubmit = () => {
+    handleSubmit = () => {
       const { valid } = this.state;
       const {
-        firstName, lastName, email, phone, age,
+        firstName, lastName, phone, email, age, clincName,
+        city,
+        sex,
+        certification,
+        degree,
+        graduateYear,
+        university,
       } = this.state;
       const formFilled = !(firstName === '' || lastName === '' || email === '' || phone === '' || age === '');
       const formInvalid = Object.keys(valid).some(x => !valid[x]);
@@ -102,6 +133,26 @@ class RegistrationForm extends Component {
           email: true,
         },
       });
+      const data = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        age,
+        clincName,
+        city,
+        sex,
+        certification,
+        degree,
+        graduateYear,
+        university,
+      };
+        console.log("sdfdssdfds",data);
+          // fetch('https://thawing-caverns-41616.herokuapp.com/registerdoctor', {
+         //     method: 'post',
+         //     body: JSON.stringify(data)
+         //   }).then(response => response.json()).then(console.log);
+      ReactGA.ga('send', 'event', 'Finish Register', 'As Doctor', 'success');
     }
 
     addCertification = () => {
@@ -109,7 +160,6 @@ class RegistrationForm extends Component {
       let countCopy = count;
       let NewCount = countCopy++;
       const { certif } = this.state;
-      console.log(certif);
       let newCertif = certif.slice();
       newCertif.push({ key: count, name: count });
       this.setState({
@@ -118,7 +168,6 @@ class RegistrationForm extends Component {
       this.setState({
         count: NewCount,
       })
-      console.log(newCertif);
     }
 
     render() {
@@ -138,7 +187,7 @@ class RegistrationForm extends Component {
         <Wrapper>
           <Container>
             <Register className="doctor">
-              <form onSubmit={this.handleSubmit}>
+              <form>
                 <div className="form_item">
                   <DocLabel>
                 الاسم الاول
@@ -178,6 +227,7 @@ class RegistrationForm extends Component {
                       placeholder="العمر"
                       type="number"
                       name="age"
+                      onChange={e => this.handleChange(e, 'age')}
                       required
                     />
                   </DocLabel>
@@ -220,6 +270,7 @@ class RegistrationForm extends Component {
                       placeholder="اسم العيادة"
                       type="text"
                       name="clincName"
+                      onChange={e => this.handleChange(e, 'clincName')}
                       required
                     />
                   </DocLabel>
@@ -231,6 +282,7 @@ class RegistrationForm extends Component {
                       placeholder="المدينة"
                       type="text"
                       name="city"
+                      onChange={e => this.handleChange(e, 'city')}
                       required
                     />
                   </DocLabel>
@@ -245,6 +297,7 @@ class RegistrationForm extends Component {
                       type="radio"
                       name="sex"
                       value="male"
+                      onChange={e => this.handleChange(e, 'sex')}
                       required
                     />
                 ذكر
@@ -255,6 +308,7 @@ class RegistrationForm extends Component {
                       type="radio"
                       name="sex"
                       value="female"
+                      onChange={e => this.handleChange(e, 'sex')}
                     />
               أنثى
                   </DocLabel>
@@ -283,6 +337,7 @@ class RegistrationForm extends Component {
                         placeholder="الدرجة العلمية"
                         type="text"
                         name="degree"
+                        onChange={e => this.handleChange(e, 'degree')}
                         required
                       />
                     </DocLabel>
@@ -295,6 +350,7 @@ class RegistrationForm extends Component {
                           type="number"
                           placeholder="YYYY"
                           name="graduateYear"
+                          onChange={e => this.handleChange(e, 'graduateYear')}
                           required
                         />
 
@@ -308,18 +364,19 @@ class RegistrationForm extends Component {
                         placeholder="اسم الجامعة"
                         type="text"
                         name="university"
+                        onChange={e => this.handleChange(e, 'university')}
                         required
                       />
                     </DocLabel>
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('university')}>{this.errorMessages('email')}</Register.RequiredFeild>
                   </div>
                 </div>
-                { certif.length > 0 &&  certif.map((item) => <Certifiction name={item.name} />) }
+                { certif.length > 0 &&  certif.map((item) => <Certifiction name={item.name} onChange={(e, name) => this.handleChange(e, name)}/>) }
                 <div className="sb-btn">
                   <button type="button" onClick={this.addCertification}>اضافة شهادة</button>
                 </div>
                 <div className="sb-btn">
-                  <button type="button" onClick="ga('send', 'event', 'Finish Register', 'As Doctor', 'success');">انضم الآن</button>
+                  <button type="button" onClick={this.handleSubmit}>انضم الآن</button>
                 </div>
 
               </form>
