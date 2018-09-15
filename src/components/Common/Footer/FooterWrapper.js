@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Container from '../../elements/Container';
-import Link from '../../elements/Link';
 
 const FooterWrapper = styled.footer`
     width: 100%;
@@ -8,7 +7,7 @@ const FooterWrapper = styled.footer`
 
 `;
 
-const SocialLink = styled(Link)`
+const SocialLink = styled.a`
     margin-right: 12px;
     div {
         font-size: 24px;

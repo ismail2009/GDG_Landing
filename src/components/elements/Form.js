@@ -121,17 +121,11 @@ const RequiredFeild = styled.span`
   display: none;
   color: red;
   font-size: 0.7em;
-  color: #ffffff;
-  position: absolute;
-  top: 0;
-  right: -50px;
-  background-color: red;
-  width: 25%;
+  color: red;
+  width: 50%;
   height: 25px;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
-  border-radius: 8px;
   ${props => props.required}
 `;
 const Input = styled.input`
