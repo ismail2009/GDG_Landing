@@ -16,7 +16,7 @@ class RegistrationForm extends Component {
        email: '',
        phone: '',
        age: '',
-       clincName: '',
+       clinicName: '',
        city: '',
        sex: '',
        certification: '',
@@ -29,7 +29,7 @@ class RegistrationForm extends Component {
          email: true,
          phone: true,
          age: true,
-         clincName: true,
+         clinicName: true,
          city: true,
          degree: true,
          graduateYear: true,
@@ -41,7 +41,7 @@ class RegistrationForm extends Component {
          email: false,
          phone: false,
          age: false,
-         clincName: false,
+         clinicName: false,
          city: false,
          degree: false,
          graduateYear: false,
@@ -54,7 +54,7 @@ class RegistrationForm extends Component {
     rexExpMap = {
       firstName: /^[\u0600-\u06FF]+$/,
       lastName: /^[\u0600-\u06FF]+$/,
-      clincName: /^[\u0600-\u06FF]+$/,
+      clinicName: /^[\u0600-\u06FF]+$/,
       sex: /^(male | female)$/,
       phone: /05(9[987542]|6[9872])\d{6}$/,
       city: /^[\u0600-\u06FF]+$/,
@@ -112,7 +112,7 @@ class RegistrationForm extends Component {
     handleSubmit = () => {
       const { valid } = this.state;
       const {
-        firstName, lastName, phone, email, age, clincName,
+        firstName, lastName, phone, email, age, clinicName,
         city,
         sex,
         certification,
@@ -134,12 +134,12 @@ class RegistrationForm extends Component {
         },
       });
       const data = {
-        firstName,
-        lastName,
+        firstname: firstName,
+        lastname: lastName ,
         email,
         phone,
         age,
-        clincName,
+        clinicName,
         city,
         sex,
         certification,
@@ -148,10 +148,13 @@ class RegistrationForm extends Component {
         university,
       };
         console.log("sdfdssdfds",data);
-          // fetch('https://thawing-caverns-41616.herokuapp.com/registerdoctor', {
-         //     method: 'post',
-         //     body: JSON.stringify(data)
-         //   }).then(response => response.json()).then(console.log);
+          fetch('https://thawing-caverns-41616.herokuapp.com/registerdoctor', {
+             method: 'post',
+             body: JSON.stringify(data),
+             headers: {
+           "Content-Type": "application/json",
+                },
+           }).then(response => response.json()).then(console.log);
       ReactGA.ga('send', 'event', 'Finish Register', 'As Doctor', 'success');
     }
 
@@ -269,8 +272,8 @@ class RegistrationForm extends Component {
                     <Register.Input
                       placeholder="اسم العيادة"
                       type="text"
-                      name="clincName"
-                      onChange={e => this.handleChange(e, 'clincName')}
+                      name="clinicName"
+                      onChange={e => this.handleChange(e, 'clinicName')}
                       required
                     />
                   </DocLabel>
