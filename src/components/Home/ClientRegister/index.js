@@ -135,6 +135,7 @@ class RegistrationForm extends Component {
         reservation_date,
         hour,
         why,
+
       };
           fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient', {
              method: 'post',
@@ -328,7 +329,7 @@ class RegistrationForm extends Component {
             <div className="sb-btn">
               <button type="button" onClick={this.handleSubmit}>سجل و احجز موعد</button>
             </div>
-            {this.state.submitForm ? this.state.registerSuccess   ? <div className="form_alert success"> التسجيل ناجح </div> : <div className="form_alert failed">يرجى ادخال البيانات بشكل صحيح</div> : null}
+            {this.state.submitForm ? this.state.registerSuccess   ? <div className="form_alert success"> التسجيل ناجح </div> : <div className="form_alert failed">يرجى ادخل البيانات بشكل صحيح</div> : null}
           </form>
         </Register>
       );

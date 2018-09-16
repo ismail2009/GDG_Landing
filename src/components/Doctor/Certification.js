@@ -24,7 +24,7 @@ const Certifiction = ({ name, onChange }) => {
               <Register.Input
                 type="date"
                 name={`date${name}`}
-                onChange={e => onChange(e,`date${name}`)}
+                onChange={e => onChange(e, `date${name}`)}
                 required
               />
             </div>
