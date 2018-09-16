@@ -5,7 +5,6 @@ import Register from '../elements/Form';
 import Wrapper from '../elements/Wrapper';
 import Container from '../elements/Container';
 import DocLabel from './FormDoc';
-import Certifiction from './Certification';
 ReactGA.initialize('UA-125030175-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -392,10 +391,7 @@ class RegistrationForm extends Component {
                     <Register.RequiredFeild className="required-field" required={this.requiredStyle('university')}>{this.errorMessages('اسم الجامعة')}</Register.RequiredFeild>
                   </div>
                 </div>
-                {/*certif.length > 0 &&  certif.map((item) => <Certifiction name={item.name} onChange={(e, name) => this.handleChange(e, name)}/>)*/}
-                {/*<div className="sb-btn">
-                  <button type="button" onClick={this.addCertification}>اضافة شهادة</button>
-                </div>*/}
+
                 <div className="sb-btn">
                   <button type="button" onClick={this.handleSubmit}>انضم الآن</button>
                 </div>
