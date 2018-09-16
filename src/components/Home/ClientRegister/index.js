@@ -124,8 +124,8 @@ class RegistrationForm extends Component {
         },
       });
       const data = {
-        firstName,
-        lastName,
+        firstname: firstName,
+        lastname: lastName,
         gender,
         phone,
         age,
@@ -134,11 +134,9 @@ class RegistrationForm extends Component {
         hour,
         why,
       };
-        console.log("sdfdssdfds",data);
-          fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient/', {
+          fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient', {
              method: 'post',
              body: JSON.stringify(data),
-             credentials: 'include',
              headers: {
            "Content-Type": "application/json",       },
            }).then(response => response.json()).then(() => {console.log("sdfsdfsdf")}).catch((err) => {console.log(err);});
