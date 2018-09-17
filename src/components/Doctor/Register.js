@@ -57,7 +57,7 @@ class RegistrationForm extends Component {
       lastName: /^[\u0600-\u06FF]+$/,
       clinicName: /^[\u0600-\u06FF]+$/,
       gender: /^(male | female)$/,
-      phone: /05(9[987542]|6[9872])\d{6}$/,
+      phone: /(05).(9[987542] || 6[987542]).(\d){6}/,
       city: /^[\u0600-\u06FF]+$/,
       age: /\d/,
       degree: /\d/,
@@ -68,7 +68,7 @@ class RegistrationForm extends Component {
 
     handleChange = (e, name) => {
       const inputName = this.state;
-      if(name !== 'certification' ) {
+      if(name !== 'certification' && name !== 'phone' ) {
       this.setState({ [e.target.name]: e.target.value }, () => {
           this.checkData(this.rexExpMap[name], inputName[name], inputName.valid[name], name);
       });
@@ -83,7 +83,8 @@ class RegistrationForm extends Component {
       this.setState({
         touched: { ...touched, [name]: true },
       });
-      if (regExp.test(stateName)) {
+      let bool = regExp.test(stateName);
+      if (bool) {
         this.setState({
           valid: { ...valid, [name]: true },
         });
@@ -159,7 +160,7 @@ class RegistrationForm extends Component {
              method: 'post',
              body: formData,
              headers: {
-           "Content-Type": "multipart/form-data",
+          'Content-Type': 'application/x-www-form-urlencoded',
                 },
            }).then(response => response.json()).then(() => {
              this.setState({
@@ -278,7 +279,7 @@ class RegistrationForm extends Component {
                       required
                     />
                   </DocLabel>
-                  <Register.RequiredFeild className="required-field" required={this.requiredStyle('phone')}>{this.errorMessages('email')}</Register.RequiredFeild>
+                  <Register.RequiredFeild className="required-field" required={this.requiredStyle('phone')}>{this.errorMessages('رقم الجوال')}</Register.RequiredFeild>
 
                 </div>
 
@@ -337,13 +338,13 @@ class RegistrationForm extends Component {
                 <div className="form_doc_certification">
                   <div className="form_item">
                     <DocLabel>
-              شهادة مزاولة المهنة
+                    شهادة مزاولة المهنة
                       <div className="form_item_input">
                         <Register.Input
                           type="file"
                           name="certification"
                           onChange={e => this.handleChange(e, 'certification')}
-                          required
+                          required={true}
                         />
                       </div>
                     </DocLabel>
@@ -352,7 +353,7 @@ class RegistrationForm extends Component {
                   </div>
                   <div className="form_item">
                     <DocLabel>
-                الدرجة العلمية
+                      الدرجة العلمية
                       <Register.Input
                         placeholder="الدرجة العلمية"
                         type="text"
