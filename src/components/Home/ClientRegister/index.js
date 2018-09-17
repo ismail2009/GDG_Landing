@@ -60,7 +60,7 @@ class RegistrationForm extends Component {
       this.setState({
         touched: { ...touched, [name]: true },
       });
-      if (regExp.test(stateName)) {
+      if (regExp.exec(stateName) == null) {
         this.setState({
           valid: { ...valid, [name]: true },
         });
