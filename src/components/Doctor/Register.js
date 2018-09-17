@@ -142,25 +142,25 @@ class RegistrationForm extends Component {
           email: true,
         },
       });
-      const formData = new FormData();
-       formData.append('certification',certification);
-       formData.append('firstname',firstName);
-       formData.append('lastname',lastName);
-       formData.append('email',email);
-       formData.append('phone',phone);
-       formData.append('age',age);
-       formData.append('clinicName',clinicName);
-       formData.append('city',city);
-       formData.append('gender',gender);
-       formData.append('degree',degree);
-       formData.append('graduateYear',graduateYear);
-       formData.append('university',university);
+      const Data = {
+          firstname:firstName,
+          lastname:lastName,
+          email,
+          phone,
+          age,
+          clinicName,
+          city,
+          gender,
+          degree,
+          graduateYear,
+          university,
+    }
 
           fetch('https://thawing-caverns-41616.herokuapp.com/registerdoctor', {
              method: 'post',
-             body: formData,
+             body: Data,
              headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/json"
                 },
            }).then(response => response.json()).then(() => {
              this.setState({
@@ -336,21 +336,6 @@ class RegistrationForm extends Component {
               </div>
 
                 <div className="form_doc_certification">
-                  <div className="form_item">
-                    <DocLabel>
-                    شهادة مزاولة المهنة
-                      <div className="form_item_input">
-                        <Register.Input
-                          type="file"
-                          name="certification"
-                          onChange={e => this.handleChange(e, 'certification')}
-                          required={true}
-                        />
-                      </div>
-                    </DocLabel>
-                    <Register.RequiredFeild className="required-field" required={this.requiredStyle('certification')}>{this.errorMessages('شهادة المزاولة')}</Register.RequiredFeild>
-
-                  </div>
                   <div className="form_item">
                     <DocLabel>
                       الدرجة العلمية
