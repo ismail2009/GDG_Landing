@@ -152,7 +152,7 @@ class RegistrationForm extends Component {
             registerSuccess: false
           });
         });
-      ReactGA.ga('send', 'event', 'Patient Register', 'As Patient', 'success');
+      ReactGA.ga('send', 'event', ' finish register', 'As Patient', 'success');
     }
 
     toggleModal= () => {
