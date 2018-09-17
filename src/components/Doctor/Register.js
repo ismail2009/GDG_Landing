@@ -153,12 +153,11 @@ class RegistrationForm extends Component {
           gender,
           degree,
           graduateYear,
-          university,
-    }
+          university,  }
 
           fetch('https://thawing-caverns-41616.herokuapp.com/registerdoctor', {
              method: 'post',
-             body: Data,
+             body: JSON.stringify(Data),
              headers: {
           "Content-Type": "application/json"
                 },

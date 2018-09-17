@@ -135,13 +135,13 @@ class RegistrationForm extends Component {
         reservation_date,
         hour,
         why,
-
       };
           fetch('https://thawing-caverns-41616.herokuapp.com/registerpatient', {
              method: 'post',
              body: JSON.stringify(data),
              headers: {
-           "Content-Type": "application/json",       },
+           "Content-Type": "application/json",
+           },
          }).then(response => response.json()).then(() => {
            this.setState({
              submitForm: true,
