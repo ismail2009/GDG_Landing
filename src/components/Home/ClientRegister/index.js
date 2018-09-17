@@ -41,7 +41,7 @@ class RegistrationForm extends Component {
       gender: /^(male | female)$/,
       reservation_date: /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/,
       hour: /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/,
-      phone: /05(9[987542]|6[9872])\d{6}$/,
+      phone: /(05).(9[987542] || 6[987542]).(\d){6}/,
       city: /^[\u0600-\u06FF]+$/,
       age: /\d/,
       email: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
@@ -60,7 +60,7 @@ class RegistrationForm extends Component {
       this.setState({
         touched: { ...touched, [name]: true },
       });
-      if (regExp.test(stateName)) {
+      if (regExp.exec(stateName) == null) {
         this.setState({
           valid: { ...valid, [name]: true },
         });
