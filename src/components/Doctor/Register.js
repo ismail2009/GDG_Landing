@@ -172,7 +172,7 @@ class RegistrationForm extends Component {
               registerSuccess: false
             });
           });
-      ReactGA.ga('send', 'event', 'Finish Register', 'As Doctor', 'success');
+      ReactGA.ga('send', 'event', 'doctor register', 'As Doctor', 'success');
     }
 
     addCertification = () => {
