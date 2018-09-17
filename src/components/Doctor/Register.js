@@ -18,7 +18,6 @@ class RegistrationForm extends Component {
        clinicName: '',
        city: '',
        gender: '',
-       certification: '',
        degree: '',
        graduateYear:'',
        university: '',
@@ -68,13 +67,10 @@ class RegistrationForm extends Component {
 
     handleChange = (e, name) => {
       const inputName = this.state;
-      if(name !== 'certification' && name !== 'phone' ) {
       this.setState({ [e.target.name]: e.target.value }, () => {
           this.checkData(this.rexExpMap[name], inputName[name], inputName.valid[name], name);
       });
-    } else {
-      this.setState({ [e.target.name]: e.target.files[0] })
-      }
+
     }
 
     checkData = (regExp, stateName, stateValid, name) => {
@@ -124,7 +120,6 @@ class RegistrationForm extends Component {
         firstName, lastName, phone, email, age, clinicName,
         city,
         gender,
-        certification,
         degree,
         graduateYear,
         university,
@@ -142,7 +137,7 @@ class RegistrationForm extends Component {
           email: true,
         },
       });
-      const Data = {
+      const data = {
           firstname:firstName,
           lastname:lastName,
           email,
@@ -153,14 +148,15 @@ class RegistrationForm extends Component {
           gender,
           degree,
           graduateYear,
-          university,  }
+          university,
+         }
 
           fetch('https://thawing-caverns-41616.herokuapp.com/registerdoctor', {
              method: 'post',
-             body: JSON.stringify(Data),
+             body: JSON.stringify(data),
              headers: {
-          "Content-Type": "application/json"
-                },
+           "Content-Type": "application/json",
+           },
            }).then(response => response.json()).then(() => {
              this.setState({
                submitForm: true,
@@ -275,10 +271,11 @@ class RegistrationForm extends Component {
                       placeholder="رقم الجوال"
                       type="text"
                       name="phone"
+                      onChange={e => this.handleChange(e, 'phone')}
                       required
                     />
                   </DocLabel>
-                  <Register.RequiredFeild className="required-field" required={this.requiredStyle('phone')}>{this.errorMessages('رقم الجوال')}</Register.RequiredFeild>
+                  <Register.RequiredFeild className="required-field" required={this.requiredStyle('رقم الجوال')}>{this.errorMessages('رقم الجوال')}</Register.RequiredFeild>
 
                 </div>
 
